@@ -16,6 +16,9 @@ class IndexControllerProviderTest extends PHPUnit_Framework_TestCase
      */
     public function testParentAuthorization()
     {
+        $curl = new \Curl\Curl();
+
+        $curl->post()
 
     }
 
