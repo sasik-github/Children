@@ -8,14 +8,20 @@
 namespace Sasik\Controllers;
 
 
+use Sasik\Logic\Logic;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 class IndexControllerProvider extends AbstractProvider implements ControllerProviderInterface
 {
+
+    /**
+     * @var Logic
+     */
+    public $logic;
+
     /**
      * Returns routes to connect to the given application.
      *
@@ -26,9 +32,12 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
     public function connect(Application $app)
     {
         $controllers = $app['controllers_factory'];
+        $this->logic = new Logic();
 
         $controllers->get('/', $this->getMethod('index'));
         $controllers->post('/auth', $this->getMethod('auth'));
+        $controllers->post('/add-token', $this->getMethod('addToken'));
+        $controllers->post('/add-event', $this->getMethod('addEvent'));
 
         return $controllers;
     }
@@ -49,10 +58,36 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
         $telephone = $request->get('telephone');
         $password = $request->get('password');
 
-        if ($telephone === '89516021698'
-            && $password === 'qwerty'
-            ) {
+        if ($this->logic->validation($telephone, $password)) {
+            return $app->json([], 200);
+        }
 
+        return $app->json([], 401);
+    }
+
+    private function addToken(Application $app, Request $request)
+    {
+
+        $login = $request->get('login');
+        $password = $request->get('password');
+        $device = $request->get('device');
+        $token = $request->get('token');
+
+        if ($this->logic->addToken($login, $password, $device, $token)) {
+            return $app->json([], 200);
+        }
+
+        return $app->json([], 401);
+
+
+    }
+
+    private function addEvent(Application $app, Request $request)
+    {
+
+        $childId = $request->get('child_id');
+        $eventType = $request->get('event');
+        if ($this->logic->event($childId, $eventType)) {
             return $app->json([], 200);
         }
 

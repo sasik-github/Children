@@ -19,30 +19,24 @@ class IndexControllerProviderTest extends PHPUnit_Framework_TestCase
     public function testParentAuthorization()
     {
 
-        $client = $this->makeRequest();
-        $response = $client->post('/auth', [
-            'form_params' => [
-                'telephone' => '89516021698',
-                'password' => 'qwerty'
-            ]
+        $resp = $this->makeRequest('/auth', [
+            'telephone' => '89516021698',
+            'password' => 'qwerty'
         ]);
 
-        $this->assertEquals(200, $response->getStatusCode());
+        $this->assertEquals(200, $resp->getStatusCode());
 
     }
 
     public function testParentAuthorizationBad()
     {
 
-        $client = $this->makeRequest();
-        $response = $client->post('auth', [
-            'form_params' => [
+        $resp = $this->makeRequest('auth',  [
                 'telephone' => '89516021698',
                 'password' => 'badPassword'
-            ]
         ]);
 
-        $this->assertEquals(401, $response->getStatusCode());
+        $this->assertEquals(401, $resp->getStatusCode());
     }
 
     /**
@@ -63,6 +57,14 @@ class IndexControllerProviderTest extends PHPUnit_Framework_TestCase
      */
     public function testAddToken()
     {
+        $resp = $this->makeRequest('/add-token', [
+            'login' => '89516021698',
+            'password' => 'qwerty',
+            'device' => 'android',
+            'token' => 'fds2314fdasfcvfdfq3214fdf',
+        ]);
+
+        $this->assertEquals(200, $resp->getStatusCode());
 
     }
 
@@ -88,17 +90,26 @@ class IndexControllerProviderTest extends PHPUnit_Framework_TestCase
      */
     public function testChildrenEnterOrExit()
     {
+        $resp = $this->makeRequest('/add-event', [
+            'login' => '89516021698',
+            'password' => 'qwerty',
+            'device' => 'android',
+            'token' => 'fds2314fdasfcvfdfq3214fdf',
+        ]);
 
+        $this->assertEquals(200, $resp->getStatusCode());
     }
 
-    private function makeRequest()
+    private function makeRequest($path, array $params)
     {
         $client = new \GuzzleHttp\Client([
             'base_uri' => $this->url,
             'http_errors' => false,
         ]);
 
-        return $client;
+        return $client->post($path, [
+            'form_params' => $params
+        ]);
     }
 
 }
