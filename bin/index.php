@@ -13,7 +13,7 @@ $dbOptions = [
     'dbname' => 'mobile',
     'host' => 'localhost',
     'user' => 'root',
-    'password' => 'LbyfRjpz',
+    'password' => '',
     'charset' => 'utf8',
 ];
 
