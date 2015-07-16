@@ -8,11 +8,11 @@
 namespace Sasik\Models;
 
 
+use Sasik\Models\Mapper\ParentChildrenRelation;
+
 class Parents {
 
     public $id;
-
-    public $childId;
 
     /**
      * phonenumber
@@ -21,4 +21,26 @@ class Parents {
     public $login;
 
     public $password;
+
+    protected $childrens = [];
+
+    public function getChildrens()
+    {
+        if (empty($this->childrens)) {
+
+            $mapper = new ParentChildrenRelation();
+
+            $parentsArray = $mapper->findChildrens($this->id);
+
+            foreach ($parentsArray as $parent) {
+                $newChildren = new Children();
+
+                $newChildren->id = $parent['id'];
+                $newChildren->name = $parent['name'];
+                $this->childrens[] = $newChildren;
+            }
+        }
+
+        return $this->childrens;
+    }
 }
