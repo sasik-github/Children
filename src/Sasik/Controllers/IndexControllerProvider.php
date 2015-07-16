@@ -11,6 +11,8 @@ namespace Sasik\Controllers;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
 class IndexControllerProvider extends AbstractProvider implements ControllerProviderInterface
 {
@@ -26,6 +28,7 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
         $controllers = $app['controllers_factory'];
 
         $controllers->get('/', $this->getMethod('index'));
+        $controllers->post('/auth', $this->getMethod('auth'));
 
         return $controllers;
     }
@@ -38,6 +41,22 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
         dump($children);
 
         return __CLASS__ . '::' . __METHOD__;
+    }
+
+    private function auth(Application $app, Request $request)
+    {
+
+        $telephone = $request->get('telephone');
+        $password = $request->get('password');
+
+        if ($telephone === '89516021698'
+            && $password === 'qwerty'
+            ) {
+
+            return $app->json([], 200);
+        }
+
+        return $app->json([], 401);
     }
 
 }

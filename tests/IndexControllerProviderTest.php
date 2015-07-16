@@ -8,6 +8,8 @@
  */
 class IndexControllerProviderTest extends PHPUnit_Framework_TestCase
 {
+
+    private $url = 'localhost:8080';
     /**
      * Авторизация родителя (я присылаю с телефона номер телефона и пароль,
      * в ответ жду 200 если все хорошо,
@@ -16,10 +18,31 @@ class IndexControllerProviderTest extends PHPUnit_Framework_TestCase
      */
     public function testParentAuthorization()
     {
-        $curl = new \Curl\Curl();
 
-        $curl->post()
+        $client = $this->makeRequest();
+        $response = $client->post('/auth', [
+            'form_params' => [
+                'telephone' => '89516021698',
+                'password' => 'qwerty'
+            ]
+        ]);
 
+        $this->assertEquals(200, $response->getStatusCode());
+
+    }
+
+    public function testParentAuthorizationBad()
+    {
+
+        $client = $this->makeRequest();
+        $response = $client->post('auth', [
+            'form_params' => [
+                'telephone' => '89516021698',
+                'password' => 'badPassword'
+            ]
+        ]);
+
+        $this->assertEquals(401, $response->getStatusCode());
     }
 
     /**
@@ -27,7 +50,7 @@ class IndexControllerProviderTest extends PHPUnit_Framework_TestCase
      * на сервере сделать заглушку,
      * потом сами вставят нужные данные
      */
-    public function testResetPassrword()
+    public function testResetPassword()
     {
 
     }
@@ -66,6 +89,16 @@ class IndexControllerProviderTest extends PHPUnit_Framework_TestCase
     public function testChildrenEnterOrExit()
     {
 
+    }
+
+    private function makeRequest()
+    {
+        $client = new \GuzzleHttp\Client([
+            'base_uri' => $this->url,
+            'http_errors' => false,
+        ]);
+
+        return $client;
     }
 
 }
