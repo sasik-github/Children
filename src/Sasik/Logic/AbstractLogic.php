@@ -13,6 +13,7 @@ namespace Sasik\Logic;
  * Interface AbstractLogic
  * определения методов, которые буду дергать
  * для реализации
+ *
  * @package Sasik\Logic
  */
 interface AbstractLogic

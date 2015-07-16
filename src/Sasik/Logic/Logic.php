@@ -9,6 +9,13 @@
 namespace Sasik\Logic;
 
 
+/**
+ *
+ * Class Logic
+ * Реализация логики приложения
+ *
+ * @package Sasik\Logic
+ */
 class Logic implements AbstractLogic
 {
     /**

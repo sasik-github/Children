@@ -14,6 +14,14 @@ use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
+/**
+ * Class IndexControllerProvider
+ * веб часть, в которой нет ни какой логики,
+ * вся логика находится Sasik\Logic\Logic
+ * каждый метод дергает соответсвующий метод Logic
+ *
+ * @package Sasik\Controllers
+ */
 class IndexControllerProvider extends AbstractProvider implements ControllerProviderInterface
 {
 
@@ -87,6 +95,7 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
 
         $childId = $request->get('child_id');
         $eventType = $request->get('event');
+
         if ($this->logic->event($childId, $eventType)) {
             return $app->json([], 200);
         }
