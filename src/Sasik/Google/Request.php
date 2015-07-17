@@ -9,25 +9,24 @@ namespace Sasik\Google;
 
 
 class Request {
-    public static function send()
+    public static function send($registrations_ids, $message)
     {
 
-        $data = array( 'message' => 'Hello World!' );
-
-        $ids = array( 'abc', 'def' );
+        $ids = array( 'ABC' );
 
         $apiKey = APP_KEY;
 
         $url = 'https://android.googleapis.com/gcm/send';
 
         $post = array(
-            'registration_ids'  => $ids,
-            'data'              => $data,
+            'registration_ids'  => $registrations_ids,
+            'data'              => $message,
         );
 
         $headers = array(
-            'Authorization: key=' . $apiKey,
-            'Content-Type: application/json'
+            'Content-Type: application/json',
+            'Accept: application/json',
+            'Authorization: key=AIzaSyBmD_xn3B-raNWAINoxB6IcIMZX5RNCeFc'// . $apiKey,
         );
 
         $ch = curl_init();
@@ -35,6 +34,7 @@ class Request {
         curl_setopt( $ch, CURLOPT_POST, true );
         curl_setopt( $ch, CURLOPT_HTTPHEADER, $headers );
         curl_setopt( $ch, CURLOPT_RETURNTRANSFER, true );
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode( $post ) );
 
         $result = curl_exec( $ch );

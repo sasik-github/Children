@@ -20,7 +20,7 @@ class CloudMessaging {
             'base_uri' => 'https://gcm-http.googleapis.com/gcm/send',
         ]);
 
-        $response = $client->get('', [
+        $response = $client->post('', [
             'headers' => [
                 'Authorization' => 'key=' . CloudMessaging::APP_KEY,
                 'Content-Type' => 'application/json',
@@ -29,6 +29,7 @@ class CloudMessaging {
                 'to' => $toToken,
                 'data' => $data,
             ],
+            'http_errors' => false,
         ]);
 
         return $response;
