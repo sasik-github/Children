@@ -43,7 +43,6 @@ class Tokens extends AbstractModel {
             'parent_id' => $this->parentId,
             'token' => $this->token,
             'type' => $this->type,
-
         ];
 
         $this->doSave($mapper, $params);

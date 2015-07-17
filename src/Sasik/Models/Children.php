@@ -70,4 +70,12 @@ class Children extends AbstractModel {
         
     }
 
+    public function addParent(Parents $parent)
+    {
+        $parent->save();
+        $this->parents[] = $parent;
+        $mapper = DbSingleton::getParentChildrenMapper();
+        $mapper->addRelation($parent, $this);
+    }
+
 }

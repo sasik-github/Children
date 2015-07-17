@@ -8,6 +8,9 @@
 namespace Sasik\Models\Mapper;
 
 
+use Sasik\Models\Children;
+use Sasik\Models\Parents;
+
 class ParentChildrenRelation extends Mapper
 {
     protected $table = 'children_to_parents';
@@ -20,6 +23,11 @@ class ParentChildrenRelation extends Mapper
     public function findParents($childrenId)
     {
         return $this->db->fetchAll('SELECT * FROM ' . $this->table . ' WHERE children_id = ?', [(int) $childrenId]);
+    }
+
+    public function addRelation(Parents $parent, Children $children)
+    {
+        return $this->insert(['parent_id' => $parent->id, 'children_id' => $children->id]);
     }
 
 

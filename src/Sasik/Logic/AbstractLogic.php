@@ -50,7 +50,7 @@ interface AbstractLogic
      * https://developers.google.com/cloud-messaging/
      * @param $childId
      * @param $eventType
-     * @param $message 
+     * @param $message
      * @return mixed
      */
     public function event($childId, $eventType, $message);

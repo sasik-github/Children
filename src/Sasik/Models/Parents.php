@@ -94,4 +94,12 @@ class Parents extends AbstractModel {
 
         return $this->token;
     }
+
+    public function addChildren(Children $children)
+    {
+        $children->save();
+        $this->childrens[] = $children;
+        $mapper = DbSingleton::getParentChildrenMapper();
+        $mapper->addRelation($this, $children);
+    }
 }
