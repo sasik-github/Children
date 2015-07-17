@@ -1,21 +1,18 @@
 <?php
 
 define('APPLICATION_PATH', __DIR__ . '/../');
+define('CONFIG', APPLICATION_PATH . '/configs/config.json');
 
 require_once APPLICATION_PATH . "vendor/autoload.php";
 
+$config = new \Noodlehaus\Config(CONFIG);
 
 $app = new Silex\Application();
 $app['debug'] = true;
 
-$dbOptions = [
-    'driver' => 'pdo_mysql',
-    'dbname' => 'mobile',
-    'host' => 'localhost',
-    'user' => 'root',
-    'password' => '',
-    'charset' => 'utf8',
-];
+$dbOptions = $config->get('db');
+
+define('APP_KEY', $config->get('app_key'));
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), [
     'db.options' => $dbOptions,
@@ -24,12 +21,6 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), [
 \Sasik\Db\DbSingleton::setDb($app['db']);
 
 
-$mapper = new \Sasik\Models\Mapper\ChildrenMapper();
+$app->mount('/', new Sasik\Controllers\IndexControllerProvider());
 
-dump($mapper->insert(['name' => 'Ivan Kozlov']));
-dump($mapper->select());
-dump($mapper->find(3));
-
-//$app->mount('/', new Sasik\Controllers\IndexControllerProvider());
-//
-//$app->run();
+$app->run();

@@ -12,7 +12,7 @@ use GuzzleHttp\Client;
 
 class CloudMessaging {
 
-    const APP_KEY = 'AIzaSyBmD_xn3B-raNWAINoxB6IcIMZX5RNCeFc';
+    const APP_KEY = APP_KEY;
 
     public static function send($toToken, $data)
     {

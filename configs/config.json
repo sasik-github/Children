@@ -1,0 +1,12 @@
+{
+  "db": {
+    "driver": "pdo_mysql",
+    "dbname": "mobile",
+    "host": "localhost",
+    "user":"root",
+    "password": "",
+    "charset": "utf8"
+    ]
+  },
+  "app_key": "AIzaSyBmD_xn3B-raNWAINoxB6IcIMZX5RNCeFc"
+}

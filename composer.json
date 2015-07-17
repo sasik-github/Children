@@ -11,7 +11,8 @@
         "symfony/var-dumper": "^2.7",
         "doctrine/dbal": "~2.2",
         "guzzlehttp/guzzle": "^6.0",
-        "phpunit/phpunit": "^4.7"
+        "phpunit/phpunit": "^4.7",
+        "hassankhan/config": "^0.8.2"
     },
     "autoload": {
             "psr-0": {
