@@ -8,7 +8,10 @@
 
 namespace Sasik\Logic;
 
+use Sasik\Google\CloudMessaging;
+use Sasik\Models\Children;
 use Sasik\Models\Parents;
+use Sasik\Models\Tokens;
 
 
 /**
@@ -54,7 +57,22 @@ class Logic implements AbstractLogic
      */
     public function addToken($login, $password, $device, $token)
     {
-        return false;
+        $parent = Parents::findByLogin($login);
+        if (!$parent) {
+            if (!$parent->password === $password) {
+                return false;
+            }
+        }
+
+        $token = Tokens::createObj([
+            'type' => $device,
+            'token' => $token,
+            'parent_id' => $parent->id,
+        ]);
+
+        $token->save();
+
+        return true;
     }
 
     /**
@@ -66,9 +84,23 @@ class Logic implements AbstractLogic
      * @param $eventType
      * @return mixed
      */
-    public function event($childId, $eventType)
+    public function event($childId, $eventType, $data)
     {
-        return false;
+        $children = Children::find($childId);
+        if (!$children) {
+            return false;
+        }
+
+        $parents = $children->getParents();
+
+        foreach ($parents as $parent) {
+            /**
+             * @var $parent Parents
+             */
+            CloudMessaging::send($parent->getToken(), $data);
+        }
+
+        return true;
     }
 
 

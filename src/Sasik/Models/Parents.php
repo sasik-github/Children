@@ -23,7 +23,9 @@ class Parents extends AbstractModel {
 
     public $password;
 
-    protected $childrens = [];
+    private $childrens = [];
+
+    private $token;
 
     public function getChildrens()
     {
@@ -81,5 +83,15 @@ class Parents extends AbstractModel {
 
         $this->doSave($mapper, $params);
 
+    }
+
+    public function getToken()
+    {
+        if (!$this->token) {
+            $mapper = DbSingleton::getTokensMapper();
+            $this->token = $mapper->getToken($this->id);
+        }
+
+        return $this->token;
     }
 }

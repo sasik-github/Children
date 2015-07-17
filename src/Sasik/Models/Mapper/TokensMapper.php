@@ -13,4 +13,9 @@ class TokensMapper extends Mapper
     protected $select = 'SELECT * FROM tokens';
 
     protected $table = 'tokens';
+
+    public function getToken($parentId)
+    {
+        $this->db->fetchAssoc('SELECT * FROM ' . $this->table . ' WHERE parent_id = ?', [(int) $parentId]);
+    }
 }

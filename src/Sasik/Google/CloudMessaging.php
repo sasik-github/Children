@@ -14,7 +14,7 @@ class CloudMessaging {
 
     const APP_KEY = 'AIzaSyBmD_xn3B-raNWAINoxB6IcIMZX5RNCeFc';
 
-    public static function send($toToken)
+    public static function send($toToken, $data)
     {
         $client = new Client([
             'base_uri' => 'https://gcm-http.googleapis.com/gcm/send',
@@ -27,7 +27,7 @@ class CloudMessaging {
             ],
             'json' => [
                 'to' => $toToken,
-                'data' => 'Hi hi'
+                'data' => $data,
             ],
         ]);
 
