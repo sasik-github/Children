@@ -8,11 +8,9 @@
 
 namespace Sasik\Models;
 
+use Sasik\Db\DbSingleton;
 
-use Sasik\Models\Mapper\ChildrenMapper;
-use Sasik\Models\Mapper\ParentChildrenRelation;
-
-class Children {
+class Children extends AbstractModel {
 
     public $id;
 
@@ -22,13 +20,10 @@ class Children {
 
     public static function find($id)
     {
-        $mapper = new ChildrenMapper();
+        $mapper = DbSingleton::getChildrenMapper();
         $childParams = $mapper->find($id);
 
-        $child = new Children();
-
-        $child->id = $childParams['id'];
-        $child->name = $childParams['name'];
+        $child = self::createObj($childParams);
 
         return $child;
     }
@@ -37,16 +32,12 @@ class Children {
     {
         if (empty($this->parents)) {
 
-            $mapper = new ParentChildrenRelation();
+            $mapper = DbSingleton::getParentChildrenMapper();
 
             $parentsArray = $mapper->findParents($this->id);
 
             foreach ($parentsArray as $parent) {
-                $newParent = new Parents();
-
-                $newParent->id = $parent['id'];
-                $newParent->login = $parent['login'];
-                $newParent->password = $parent['password'];
+                $newParent = Parents::createObj($parent);
                 $this->parents[] = $newParent;
             }
         }
@@ -56,13 +47,27 @@ class Children {
 
     public function save()
     {
-        $mapper = new ChildrenMapper();
-        if ($this->id) {
-            return $mapper->update($this->id, ['name' => $this->name]);
+        $mapper = DbSingleton::getChildrenMapper();
+
+        $params = [
+            'name' => $this->name
+        ];
+
+        $this->doSave($mapper, $params);
+
+    }
+
+    public static function createObj(array $params)
+    {
+        $new = new Children();
+        if (array_key_exists('id', $params)) {
+            $new->id = $params['id'];
         }
 
-        $this->id = $mapper->insert(['name' => $this->name]);
+        $new->name = $params['name'];
 
+        return $new;
+        
     }
 
 }

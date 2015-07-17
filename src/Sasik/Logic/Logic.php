@@ -8,6 +8,8 @@
 
 namespace Sasik\Logic;
 
+use Sasik\Models\Parents;
+
 
 /**
  *
@@ -30,6 +32,13 @@ class Logic implements AbstractLogic
      */
     public function validation($login, $password)
     {
+        $parent = Parents::findByLogin($login);
+        if ($parent) {
+            if ($parent->password === $password) {
+                return true;
+            }
+        }
+
         return false;
     }
 

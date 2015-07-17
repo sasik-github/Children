@@ -13,4 +13,9 @@ class ParentsMapper extends Mapper
     protected $select = 'SELECT * FROM parents';
 
     protected $table = 'parents';
+
+    public function findByLogin($login)
+    {
+        return $this->db->fetchAssoc($this->select . ' WHERE login = ?', [$login]);
+    }
 }

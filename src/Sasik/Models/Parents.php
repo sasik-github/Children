@@ -8,9 +8,10 @@
 namespace Sasik\Models;
 
 
+use Sasik\Db\DbSingleton;
 use Sasik\Models\Mapper\ParentChildrenRelation;
 
-class Parents {
+class Parents extends AbstractModel {
 
     public $id;
 
@@ -28,19 +29,57 @@ class Parents {
     {
         if (empty($this->childrens)) {
 
-            $mapper = new ParentChildrenRelation();
+            $mapper = DbSingleton::getParentChildrenMapper();
 
-            $parentsArray = $mapper->findChildrens($this->id);
+            $childrensArray = $mapper->findChildrens($this->id);
 
-            foreach ($parentsArray as $parent) {
-                $newChildren = new Children();
+            foreach ($childrensArray as $children) {
 
-                $newChildren->id = $parent['id'];
-                $newChildren->name = $parent['name'];
+                $newChildren = Children::createObj($children);
                 $this->childrens[] = $newChildren;
             }
         }
 
         return $this->childrens;
+    }
+
+    public static function createObj(array $params)
+    {
+        $new = new Parents();
+
+        if (array_key_exists('id', $params)) {
+            $new->id = $params['id'];
+        }
+
+        $new->login = $params['login'];
+        $new->password = $params['password'];
+
+        return $new;
+        
+    }
+
+    /**
+     * @param $login
+     * @return Parents
+     */
+    public static function findByLogin($login)
+    {
+        /**
+         * @todo что будет если такого логина не существует?!
+         */
+        $params = DbSingleton::getParentsMapper()->findByLogin($login);
+        return self::createObj($params);
+    }
+
+    public function save()
+    {
+        $mapper = DbSingleton::getParentsMapper();
+        $params = [
+            'login' => $this->login,
+            'password' => $this->password,
+        ];
+
+        $this->doSave($mapper, $params);
+
     }
 }

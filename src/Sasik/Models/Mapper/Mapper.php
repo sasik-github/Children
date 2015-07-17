@@ -8,6 +8,7 @@
 namespace Sasik\Models\Mapper;
 
 
+use Doctrine\DBAL\Connection;
 use Sasik\Db\DbSingleton;
 
 abstract class Mapper
@@ -17,15 +18,15 @@ abstract class Mapper
      */
     protected $db;
 
-    protected $select = 'SELECT * FROM children';
-
-    protected $insert = "INSERT INTO children VALUES ?";
+    protected $select = '';
 
     protected $table = 'children';
 
-    public function __construct()
+    protected $mapper;
+
+    public function __construct(Connection $db)
     {
-        $this->db = DbSingleton::getDb();
+        $this->db = $db;
     }
 
     public function select()
