@@ -103,7 +103,7 @@ class DbSingleton
      */
     public static function getParentChildrenMapper()
     {
-        if (!self::$parentChildrenRelation) {
+        if (!self::$parentChildrenMapper) {
             self::$parentChildrenMapper = new ParentChildrenRelation(self::getDb());
         }
 

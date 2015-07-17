@@ -70,7 +70,12 @@ class Parents extends AbstractModel {
          * @todo что будет если такого логина не существует?!
          */
         $params = DbSingleton::getParentsMapper()->findByLogin($login);
-        return self::createObj($params);
+        if ($params) {
+            return self::createObj($params);
+        }
+
+        return null;
+
     }
 
     public function save()

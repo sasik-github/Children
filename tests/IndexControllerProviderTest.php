@@ -20,8 +20,8 @@ class IndexControllerProviderTest extends PHPUnit_Framework_TestCase
     {
 
         $resp = $this->makeRequest('/auth', [
-            'telephone' => '89516021698',
-            'password' => 'qwerty'
+            'telephone' => 'TestParent',
+            'password' => 'ParentPass'
         ]);
 
         $this->assertEquals(200, $resp->getStatusCode());
@@ -58,8 +58,8 @@ class IndexControllerProviderTest extends PHPUnit_Framework_TestCase
     public function testAddToken()
     {
         $resp = $this->makeRequest('/add-token', [
-            'login' => '89516021698',
-            'password' => 'qwerty',
+            'login' => 'TestParent',
+            'password' => 'ParentPass',
             'device' => 'android',
             'token' => 'fds2314fdasfcvfdfq3214fdf',
         ]);
@@ -91,8 +91,8 @@ class IndexControllerProviderTest extends PHPUnit_Framework_TestCase
     public function testChildrenEnterOrExit()
     {
         $resp = $this->makeRequest('/add-event', [
-            'login' => '89516021698',
-            'password' => 'qwerty',
+            'login' => 'TestParent',
+            'password' => 'ParentPass',
             'device' => 'android',
             'token' => 'fds2314fdasfcvfdfq3214fdf',
         ]);

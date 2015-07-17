@@ -7,6 +7,7 @@
  */
 
 define('APPLICATION_PATH', __DIR__ . '/../');
+define('CONFIG', APPLICATION_PATH . '/configs/config.json');
 
 require_once APPLICATION_PATH . "vendor/autoload.php";
 
@@ -14,12 +15,13 @@ use Sasik\Models\Children;
 use Sasik\Models\Parents;
 use Sasik\Models\Tokens;
 
+$config = new \Noodlehaus\Config(CONFIG);
 
 $app = new Silex\Application();
 $app['debug'] = true;
 
 $app->register(new Silex\Provider\DoctrineServiceProvider(), [
-    'db.options' => $dbOptions,
+    'db.options' => $config->get('db'),
 ]);
 
 \Sasik\Db\DbSingleton::setDb($app['db']);
@@ -29,15 +31,20 @@ $db = \Sasik\Db\DbSingleton::getDb();
 /**
  * ОСТОРОЖНО
  */
-$db->delete('children');
-$db->delete('parents');
-$db->delete('tokens');
-$db->delete('children_to_parents');
+foreach(['children', 'parents', 'tokens', 'children_to_parents'] as $table) {
+    $query = $db->createQueryBuilder();
+    $query->delete($table)->execute();
+//    $db->fetchAll('DELETE FROM ' . $table );
+}
+//$db->delete('children', []);
+//$db->delete('parents', []);
+//$db->delete('tokens', []);
+//$db->delete('children_to_parents', []);
 
 
 $childrens = [
     Children::createObj(['name' => 'Children' . uniqid()]),
-    Children::createObj(['name' => 'Children' . uniqid()]),
+    Children::createObj(['name' => 'TestChildren']),
     Children::createObj(['name' => 'Children' . uniqid()]),
     Children::createObj(['name' => 'Children' . uniqid()]),
     Children::createObj(['name' => 'Children' . uniqid()]),
@@ -46,7 +53,7 @@ saveAll($childrens);
 
 $parents = [
     Parents::createObj(['login' => 'Parent' . uniqid(), 'password' => uniqid()]),
-    Parents::createObj(['login' => 'Parent' . uniqid(), 'password' => uniqid()]),
+    Parents::createObj(['login' => 'TestParent', 'password' => 'ParentPass']),
     Parents::createObj(['login' => 'Parent' . uniqid(), 'password' => uniqid()]),
     Parents::createObj(['login' => 'Parent' . uniqid(), 'password' => uniqid()]),
 ];
@@ -54,6 +61,8 @@ saveAll($parents);
 
 
 $tokens = addTokens($parents);
+saveAll($tokens);
+
 addRelation($parents, $childrens);
 
 

@@ -20,12 +20,17 @@ class Children extends AbstractModel {
 
     public static function find($id)
     {
-        $mapper = DbSingleton::getChildrenMapper();
-        $childParams = $mapper->find($id);
+        $childParams = DbSingleton::getChildrenMapper()->find($id);
 
-        $child = self::createObj($childParams);
+        if ($childParams) {
+            $child = self::createObj($childParams);
+            return $child;
+        }
 
-        return $child;
+        return null;
+
+
+
     }
 
     public function getParents()
