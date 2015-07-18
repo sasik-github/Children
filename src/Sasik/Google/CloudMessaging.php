@@ -19,7 +19,6 @@ class CloudMessaging {
         $client = new Client([
             'base_uri' => 'https://gcm-http.googleapis.com/gcm/send',
         ]);
-
         $response = $client->post('', [
             'headers' => [
                 'Authorization' => 'key=' . CloudMessaging::APP_KEY,
