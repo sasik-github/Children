@@ -16,6 +16,6 @@ class TokensMapper extends Mapper
 
     public function getToken($parentId)
     {
-        $this->db->fetchAssoc('SELECT * FROM ' . $this->table . ' WHERE parent_id = ?', [(int) $parentId]);
+        return $this->db->fetchAssoc('SELECT * FROM ' . $this->table . ' WHERE parent_id = ?', [(int) $parentId]);
     }
 }

@@ -18,4 +18,13 @@ class ParentsMapper extends Mapper
     {
         return $this->db->fetchAssoc($this->select . ' WHERE login = ?', [$login]);
     }
+
+    public function findAll(array $parentIDs)
+    {
+        $stmt = $this->db->executeQuery($this->select . ' WHERE id IN ( ? ) ',
+            array($parentIDs),
+            array(\Doctrine\DBAL\Connection::PARAM_INT_ARRAY)
+        );
+        return $stmt->fetchAll();
+    }
 }

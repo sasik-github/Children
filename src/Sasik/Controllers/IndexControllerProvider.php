@@ -43,9 +43,9 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
         $this->logic = new Logic();
 
         $controllers->get('/', $this->getMethod('index'));
-        $controllers->get('/auth', $this->getMethod('auth'));
-        $controllers->get('/add-token', $this->getMethod('addToken'));
-        $controllers->get('/add-event', $this->getMethod('addEvent'));
+        $controllers->post('/auth', $this->getMethod('auth'));
+        $controllers->post('/add-token', $this->getMethod('addToken'));
+        $controllers->post('/add-event', $this->getMethod('addEvent'));
 
         return $controllers;
     }

@@ -97,7 +97,7 @@ class Parents extends AbstractModel {
     {
         if (!$this->token) {
             $mapper = DbSingleton::getTokensMapper();
-            $this->token = $mapper->getToken($this->id);
+            $this->token = Tokens::createObj($mapper->getToken($this->id));
         }
 
         return $this->token;
@@ -109,5 +109,21 @@ class Parents extends AbstractModel {
         $this->childrens[] = $children;
         $mapper = DbSingleton::getParentChildrenMapper();
         $mapper->addRelation($this, $children);
+    }
+
+    /**
+     * @param $login
+     * @param $password
+     * @return null|Parents
+     */
+    public static function validation($login, $password){
+        $parent = Parents::findByLogin($login);
+        if ($parent) {
+            if ($parent->password === $password) {
+                return $parent;
+            }
+        }
+
+        return null;
     }
 }

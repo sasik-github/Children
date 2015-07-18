@@ -39,7 +39,12 @@ class Children extends AbstractModel {
 
             $mapper = DbSingleton::getParentChildrenMapper();
 
-            $parentsArray = $mapper->findParents($this->id);
+            $parentIDs = $mapper->findParents($this->id);
+            $pMapper = DbSingleton::getParentsMapper();
+            $parentsArray = $pMapper->findAll(array_map(function($el){
+                return $el['parent_id'];
+            }, $parentIDs));
+
 
             foreach ($parentsArray as $parent) {
                 $newParent = Parents::createObj($parent);

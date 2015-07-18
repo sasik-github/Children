@@ -35,11 +35,8 @@ class Logic implements AbstractLogic
      */
     public function validation($login, $password)
     {
-        $parent = Parents::findByLogin($login);
-        if ($parent) {
-            if ($parent->password === $password) {
-                return true;
-            }
+        if (Parents::validation($login, $password)) {
+            return true;
         }
 
         return false;
@@ -57,13 +54,12 @@ class Logic implements AbstractLogic
      */
     public function addToken($login, $password, $device, $token)
     {
-        $parent = Parents::findByLogin($login);
-        if (!$parent) {
-            if (!$parent->password === $password) {
-                return false;
-            }
+        if (!$parent = Parents::validation($login, $password)) {
+            return false;
         }
         $oldToken = $parent->getToken();
+
+//        dump($oldToken);
 
         $newToken = Tokens::createObj([
             'type' => $device,
