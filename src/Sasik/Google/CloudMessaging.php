@@ -26,7 +26,7 @@ class CloudMessaging {
                 'Content-Type' => 'application/json',
             ],
             'json' => [
-                'to' => $toToken,
+                'registration_ids' => [$toToken],
                 'data' => $data,
             ],
             'http_errors' => false,

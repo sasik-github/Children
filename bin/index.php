@@ -8,7 +8,7 @@ require_once APPLICATION_PATH . "vendor/autoload.php";
 $config = new \Noodlehaus\Config(CONFIG);
 
 $app = new Silex\Application();
-$app['debug'] = true;
+$app['debug'] = $config->get('debug');
 
 $dbOptions = $config->get('db');
 

@@ -1,4 +1,5 @@
 {
+  "mode": true, // false - если продакшн
   "db": {
     "driver": "pdo_mysql",
     "dbname": "mobile",

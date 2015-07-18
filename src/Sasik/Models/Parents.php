@@ -90,6 +90,9 @@ class Parents extends AbstractModel {
 
     }
 
+    /**
+     * @return Tokens
+     */
     public function getToken()
     {
         if (!$this->token) {

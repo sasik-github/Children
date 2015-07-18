@@ -48,4 +48,21 @@ class Tokens extends AbstractModel {
         $this->doSave($mapper, $params);
 
     }
+
+    public function delete()
+    {
+        $mapper = DbSingleton::getTokensMapper();
+        return $mapper->delete($this->id);
+    }
+
+    public function compare(Tokens $token)
+    {
+        if ($this->token === $token->token
+            && $this->type === $token->token )
+        {
+            return true;
+        }
+
+        return false;
+    }
 }

@@ -63,15 +63,22 @@ class Logic implements AbstractLogic
                 return false;
             }
         }
+        $oldToken = $parent->getToken();
 
-        $token = Tokens::createObj([
+        $newToken = Tokens::createObj([
             'type' => $device,
             'token' => $token,
             'parent_id' => $parent->id,
         ]);
 
-        $token->save();
+        if ($oldToken) {
+            if ($oldToken->compare($newToken)) {
+                return true;
+            }
+            $oldToken->delete();
+        }
 
+        $newToken->save();
         return true;
     }
 

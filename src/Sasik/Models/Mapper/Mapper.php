@@ -50,5 +50,9 @@ abstract class Mapper
         return $this->db->update($this->table, $params, ['id' => $id]);
     }
 
+    public function delete($id){
+        return $this->db->delete($this->table, ['id' => $id]);
+    }
+
 
 }
