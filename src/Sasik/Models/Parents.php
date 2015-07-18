@@ -116,8 +116,7 @@ class Parents extends AbstractModel {
     public static function validation($login, $password){
         $parent = Parents::findByLogin($login);
         if ($parent) {
-            if (password_verify($password, $parent->password))
-            if ($parent->password === $password) {
+            if (password_verify($password, $parent->password)) {
                 return $parent;
             }
         }
