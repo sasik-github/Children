@@ -100,7 +100,7 @@ class Logic
             /**
              * @var $parent Parents
              */
-            CloudMessaging::send($parent->getToken(), $data);
+            CloudMessaging::send($parent->getToken(), json_decode($data));
         }
 
         return true;
