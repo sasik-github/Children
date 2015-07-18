@@ -97,12 +97,22 @@ class Logic
 
         $parents = $children->getParents();
 
+        $reponses = [];
         foreach ($parents as $parent) {
             /**
              * @var $parent Parents
              */
-            CloudMessaging::send($parent->getToken(), json_decode($data, true));
+
+            $token = $parent->getToken();
+//            var_dump($token);
+            $resp = CloudMessaging::send($token->token, json_decode($data, true));
+            if ($resp->getStatusCode() !== 200) {
+                return false;
+            }
+
         }
+
+//        var_dump($reponses);
 
         return true;
     }

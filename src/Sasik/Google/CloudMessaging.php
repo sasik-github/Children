@@ -14,6 +14,11 @@ class CloudMessaging {
 
     const APP_KEY = APP_KEY;
 
+    /**
+     * @param $toToken
+     * @param $data
+     * @return \Psr\Http\Message\ResponseInterface
+     */
     public static function send($toToken, $data)
     {
         $client = new Client([
