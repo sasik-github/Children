@@ -1,7 +1,9 @@
 <?php
 
 /**
- * клиентский вызовы
+ * клиентский вызовы,
+ * необходимо поднять тестовое окружение, bin/testDb.php (<- УДАЛИТ ВСЕ ДАННЫЕ!!)
+ * запусить локальный сервер php -S localhost:8080 bin/index.php
  * User: sasik
  * Date: 7/16/15
  * Time: 10:31 AM
@@ -20,7 +22,7 @@ class IndexControllerProviderTest extends PHPUnit_Framework_TestCase
     {
 
         $resp = $this->makeRequest('/auth', [
-            'telephone' => 'TestParent',
+            'login' => 'TestParent',
             'password' => 'ParentPass'
         ]);
 

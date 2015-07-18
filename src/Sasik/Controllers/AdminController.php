@@ -35,7 +35,7 @@ class AdminController extends AbstractProvider implements ControllerProviderInte
 
     public function index()
     {
-        
+
     }
 
 }

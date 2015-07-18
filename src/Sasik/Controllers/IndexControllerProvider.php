@@ -30,22 +30,19 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
      */
     public $logic;
 
-    /**
-     * Returns routes to connect to the given application.
-     *
-     * @param Application $app An Application instance
-     *
-     * @return ControllerCollection A ControllerCollection instance
-     */
     public function connect(Application $app)
     {
         $controllers = $app['controllers_factory'];
         $this->logic = new Logic();
 
+        /**
+         * регистрация методов контроллера
+         */
         $controllers->get('/', $this->getMethod('index'));
         $controllers->post('/auth', $this->getMethod('auth'));
         $controllers->post('/add-token', $this->getMethod('addToken'));
         $controllers->post('/add-event', $this->getMethod('addEvent'));
+        $controllers->post('/reset-password', $this->getMethod('resetPassword'));
 
         return $controllers;
     }
@@ -55,7 +52,9 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
 
         $file = file_get_contents(APPLICATION_PATH . 'views/index.html');
 
-        return $file;
+        dump(gethostname());
+
+        return str_replace('{host}', gethostname(), $file);
     }
 
     private function auth(Application $app, Request $request)
@@ -100,6 +99,20 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
         }
 
         return $app->json([], 401);
+    }
+
+    private function resetPassword(Application $app, Request $request)
+    {
+
+        $login = $request->get('login');
+        $newPassword = $request->get('password');
+
+        if ($this->logic->resetPassword($login, $newPassword)) {
+            return $app->json([], 200);
+        }
+
+        return $app->json([], 401);
+
     }
 
 }

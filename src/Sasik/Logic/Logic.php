@@ -21,7 +21,7 @@ use Sasik\Models\Tokens;
  *
  * @package Sasik\Logic
  */
-class Logic implements AbstractLogic
+class Logic
 {
     /**
      * Авторизация родителя
@@ -101,6 +101,25 @@ class Logic implements AbstractLogic
              * @var $parent Parents
              */
             CloudMessaging::send($parent->getToken(), $data);
+        }
+
+        return true;
+    }
+
+    /**
+     *  заглушка
+     * @param $login
+     * @param $password
+     */
+    public function resetPassword($login, $password)
+    {
+        $parent = Parents::findByLogin($login);
+
+        if ($parent) {
+            $parent->setPassword($parent);
+
+            // разкомменть, что бы заработало
+            //$parent->save();
         }
 
         return true;

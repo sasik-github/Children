@@ -20,3 +20,9 @@ PARAMS:
   * child_id
   * event
   * data
+
+## http://host/reset-password
+
+PARAMS:
+  * login
+  * password

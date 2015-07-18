@@ -29,29 +29,50 @@ abstract class Mapper
         $this->db = $db;
     }
 
+    /**
+     * @return array
+     */
     public function select()
     {
         return $this->db->fetchAll($this->select);
     }
 
+    /**
+     * @param array $params ['id' => $id, 'name' => $someName]
+     * @return string
+     */
     public function insert(array $params)
     {
         $this->db->insert($this->table, $params);
         return $this->db->lastInsertId();
     }
 
+    /**
+     * @param int $id
+     * @return array
+     */
     public function find($id)
     {
         return $this->db->fetchAssoc($this->select . ' WHERE id = ?', [(int) $id]);
     }
 
+    /**
+     * @param $id
+     * @param array $params ['somecolumn' => 'value', ...]
+     * @return int сколько строк измененно
+     */
     public function update($id, array $params)
     {
-        return $this->db->update($this->table, $params, ['id' => $id]);
+        return $this->db->update($this->table, $params, ['id' => (int) $id]);
     }
 
+    /**
+     * @param int $id
+     * @return int сколько строк удаленно
+     * @throws \Doctrine\DBAL\Exception\InvalidArgumentException
+     */
     public function delete($id){
-        return $this->db->delete($this->table, ['id' => $id]);
+        return $this->db->delete($this->table, ['id' => (int) $id]);
     }
 
 

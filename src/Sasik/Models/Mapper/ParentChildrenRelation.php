@@ -27,7 +27,7 @@ class ParentChildrenRelation extends Mapper
 
     public function addRelation(Parents $parent, Children $children)
     {
-        return $this->insert(['parent_id' => $parent->id, 'children_id' => $children->id]);
+        return $this->insert(['parent_id' => (int) $parent->id, 'children_id' => (int) $children->id]);
     }
 
 

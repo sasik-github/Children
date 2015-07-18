@@ -16,7 +16,10 @@ class ParentsMapper extends Mapper
 
     public function findByLogin($login)
     {
-        return $this->db->fetchAssoc($this->select . ' WHERE login = ?', [$login]);
+        return $this->db->fetchAssoc($this->select . ' WHERE login = ?',
+            [
+                $this->db->quote($login, \PDO::PARAM_STR)
+            ]);
     }
 
     public function findAll(array $parentIDs)

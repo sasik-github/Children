@@ -14,6 +14,13 @@ use Sasik\Models\Mapper\ParentChildrenRelation;
 use Sasik\Models\Mapper\ParentsMapper;
 use Sasik\Models\Mapper\TokensMapper;
 
+/**
+ * Class DbSingleton
+ * класс БОХ
+ * все взаимодействие с БД происходит через него
+ * а именно, здесь хранятся инстансы мапперов для Моделей
+ * @package Sasik\Db
+ */
 class DbSingleton
 {
     private static $db;

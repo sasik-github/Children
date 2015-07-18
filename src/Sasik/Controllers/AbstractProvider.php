@@ -19,6 +19,7 @@ class AbstractProvider
     protected function getMethod($name)
     {
         $method = new \ReflectionMethod(get_class($this), $name);
+
         return $method->getClosure($this);
     }
 
