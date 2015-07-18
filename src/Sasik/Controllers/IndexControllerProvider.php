@@ -63,7 +63,7 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
     private function auth(Application $app, Request $request)
     {
 
-        $telephone = $request->get('telephone');
+        $telephone = $request->get('login');
         $password = $request->get('password');
 
         if ($this->logic->validation($telephone, $password)) {

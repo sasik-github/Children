@@ -32,7 +32,7 @@ class IndexControllerProviderTest extends PHPUnit_Framework_TestCase
     {
 
         $resp = $this->makeRequest('auth',  [
-                'telephone' => '89516021698',
+                'login' => '89516021698',
                 'password' => 'badPassword'
         ]);
 
