@@ -52,12 +52,10 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
 
     private function index(Application $app)
     {
-        $sql = 'SELECT * FROM children';
-        $children = $app['db']->fetchAssoc($sql);
 
-        dump($children);
+        $file = file_get_contents(APPLICATION_PATH . 'views/index.html');
 
-        return __CLASS__ . '::' . __METHOD__;
+        return $file;
     }
 
     private function auth(Application $app, Request $request)
