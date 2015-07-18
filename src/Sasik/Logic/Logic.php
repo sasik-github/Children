@@ -35,6 +35,7 @@ class Logic
      */
     public function validation($login, $password)
     {
+
         if (Parents::validation($login, $password)) {
             return true;
         }

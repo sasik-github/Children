@@ -18,7 +18,8 @@ class ParentsMapper extends Mapper
     {
         return $this->db->fetchAssoc($this->select . ' WHERE login = ?',
             [
-                $this->db->quote($login, \PDO::PARAM_STR)
+//                $this->db->quote($login)
+                $login
             ]);
     }
 

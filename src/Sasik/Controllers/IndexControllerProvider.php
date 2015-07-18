@@ -39,10 +39,10 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
          * регистрация методов контроллера
          */
         $controllers->get('/', $this->getMethod('index'));
-        $controllers->post('/auth', $this->getMethod('auth'));
-        $controllers->post('/add-token', $this->getMethod('addToken'));
-        $controllers->post('/add-event', $this->getMethod('addEvent'));
-        $controllers->post('/reset-password', $this->getMethod('resetPassword'));
+        $controllers->get('/auth', $this->getMethod('auth'));
+        $controllers->get('/add-token', $this->getMethod('addToken'));
+        $controllers->get('/add-event', $this->getMethod('addEvent'));
+        $controllers->get('/reset-password', $this->getMethod('resetPassword'));
 
         return $controllers;
     }
@@ -52,18 +52,16 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
 
         $file = file_get_contents(APPLICATION_PATH . 'views/index.html');
 
-        dump(gethostname());
-
         return str_replace('{host}', gethostname(), $file);
     }
 
     private function auth(Application $app, Request $request)
     {
 
-        $telephone = $request->get('login');
+        $login = $request->get('login');
         $password = $request->get('password');
 
-        if ($this->logic->validation($telephone, $password)) {
+        if ($this->logic->validation($login, $password)) {
             return $app->json([], 200);
         }
 

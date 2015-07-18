@@ -67,6 +67,7 @@ class Parents extends AbstractModel {
     public static function findByLogin($login)
     {
         $params = DbSingleton::getParentsMapper()->findByLogin($login);
+        dump($params);
         if ($params) {
             return self::createObj($params);
         }
@@ -115,8 +116,10 @@ class Parents extends AbstractModel {
      */
     public static function validation($login, $password){
         $parent = Parents::findByLogin($login);
+
+        dump($parent, $login);
         if ($parent) {
-            if (password_verify($password, $parent->password)) {
+            if ($password === $parent->password) {
                 return $parent;
             }
         }
@@ -126,6 +129,8 @@ class Parents extends AbstractModel {
 
     public function setPassword($password)
     {
-        $this->password = password_hash($password, PASSWORD_DEFAULT);
+//        $this->password = password_hash($password, PASSWORD_DEFAULT);
+
+        $this->password = $password;
     }
 }
