@@ -104,7 +104,11 @@ class Logic
              */
 
             $token = $parent->getToken();
-//            var_dump($token);
+
+            if ($token === null) {
+                return false;
+            }
+
             $resp = CloudMessaging::send($token->token, json_decode($data, true));
             if ($resp->getStatusCode() !== 200) {
                 return false;
