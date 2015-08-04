@@ -96,7 +96,7 @@ class Parents extends AbstractModel {
             $mapper = DbSingleton::getTokensMapper();
             $tokentRow = $mapper->getToken($this->id);
 
-            if ($tokentRow) {
+            if (!$tokentRow) {
                 return null;
             }
 
