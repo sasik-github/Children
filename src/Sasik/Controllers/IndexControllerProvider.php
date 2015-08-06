@@ -90,10 +90,9 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
     {
 
         $childId = $request->get('child_id');
-        $eventType = $request->get('event');
         $message = $request->get('data');
 
-        $results = $this->logic->event($childId, $eventType, $message);
+        $results = $this->logic->event($childId, $message);
         $resp = $this->handleEventResult($results);
 
         return $app->json($resp[0], $resp[1]);

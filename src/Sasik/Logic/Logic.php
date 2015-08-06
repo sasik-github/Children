@@ -86,10 +86,9 @@ class Logic
      * и делаешь запрос к серверу GCM как написано вот тут
      * https://developers.google.com/cloud-messaging/
      * @param $childId
-     * @param $eventType
      * @return integer ResponseCode::consts
      */
-    public function event($childId, $eventType, $data)
+    public function event($childId, $data)
     {
         $children = Children::find($childId);
         if (!$children) {

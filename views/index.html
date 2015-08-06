@@ -56,7 +56,6 @@
                 params:
                 <ul>
                     <li>child_id</li>
-                    <li>event</li>
                     <li>data</li>
                 </ul>
             </div>
@@ -71,6 +70,30 @@
                     <li>password</li>
                 </ul>
             </div>
+        </div>
+    </div>
+    <div class="row">
+        <h3>Статус коды add-event</h3>
+        <div>
+            <ul>
+                <li>
+                    3 NOT_REGISTERED - скорее всего токен устарел, и он автоматически удалился у Родителя
+                </li>
+
+                <li>5 AUTHENTICATION_ERROR - не прошла аутентификация гугла</li>
+
+                <li>2 INVALID_REGISTRATION - скорее всего ваш токен повреждем, лишние символы или что то в этом духе</li>
+
+                <li>666 UNKNOWN_ERROR - хз что ваще произошло</li>
+
+                <li>777 UNKNOWN_RESPONSE - гугл ответил с 200, но ошибка не обработана</li>
+
+                <li>6 PARENT_NOT_HAVE_TOKEN - у одного из родителя нет токена</li>
+
+                <li>7 CHILDREN_NOT_FOUND - ребенок не найден, responseCode 404</li>
+
+                <li>OK</li>
+            </ul>
         </div>
     </div>
 </div>
