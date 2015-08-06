@@ -92,6 +92,7 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
         $eventType = $request->get('event');
         $message = $request->get('data');
 
+        ;
         if ($this->logic->event($childId, $eventType, $message)) {
             return $app->json([], 200);
         }
