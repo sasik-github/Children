@@ -9,6 +9,7 @@ namespace Sasik\Controllers;
 
 
 use Sasik\Logic\Logic;
+use Sasik\Models\ResponseCode;
 use Silex\Application;
 use Silex\ControllerCollection;
 use Silex\ControllerProviderInterface;
@@ -92,12 +93,10 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
         $eventType = $request->get('event');
         $message = $request->get('data');
 
-        ;
-        if ($this->logic->event($childId, $eventType, $message)) {
-            return $app->json([], 200);
-        }
+        $results = $this->logic->event($childId, $eventType, $message);
+        $resp = $this->handleEventResult($results);
 
-        return $app->json([], 401);
+        return $app->json($resp[0], $resp[1]);
     }
 
     private function resetPassword(Application $app, Request $request)
@@ -113,5 +112,26 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
         return $app->json([], 401);
 
     }
+
+    private function handleEventResult($result)
+    {
+        if (is_array($result)) {
+            $resp = [];
+
+            foreach ($result as $res) {
+
+                $resp[] = ['code' => $res, 'msg' => ResponseCode::getMessageFromCode($res)];
+            }
+
+            return [$resp, 200];
+        }
+
+        if ($result === ResponseCode::CHILDREN_NOT_FOUND) {
+            return [ResponseCode::getMessageFromCode(ResponseCode::CHILDREN_NOT_FOUND), 404];
+        }
+
+        return [ResponseCode::getMessageFromCode(ResponseCode::UNKNOWN_RESPONSE) ,400];
+    }
+
 
 }

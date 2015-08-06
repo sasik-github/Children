@@ -37,6 +37,10 @@ class CloudMessaging {
         ]);
 
 
+//        var_dump([
+//            $response->getStatusCode(),
+//            json_decode($response->getBody()->getContents(), true)
+//        ]);
 
         return $response;
     }

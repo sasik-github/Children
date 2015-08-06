@@ -11,6 +11,7 @@ namespace Sasik\Logic;
 use Sasik\Google\CloudMessaging;
 use Sasik\Models\Children;
 use Sasik\Models\Parents;
+use Sasik\Models\ResponseCode;
 use Sasik\Models\Tokens;
 
 
@@ -86,18 +87,18 @@ class Logic
      * https://developers.google.com/cloud-messaging/
      * @param $childId
      * @param $eventType
-     * @return mixed
+     * @return integer ResponseCode::consts
      */
     public function event($childId, $eventType, $data)
     {
         $children = Children::find($childId);
         if (!$children) {
-            return false;
+            return ResponseCode::CHILDREN_NOT_FOUND;
         }
 
         $parents = $children->getParents();
 
-        $reponses = [];
+        $responses = [];
         foreach ($parents as $parent) {
             /**
              * @var $parent Parents
@@ -106,18 +107,22 @@ class Logic
             $token = $parent->getToken();
 
             if ($token === null) {
-                return false;
+                $responses[] = ResponseCode::PARENT_NOT_HAVE_TOKEN;
+                continue;
             }
             $resp = CloudMessaging::send($token->token, json_decode($data, true));
-            if ($resp->getStatusCode() !== 200) {
-                return false;
+
+            $code = ResponseCode::fromResponse($resp);
+
+            if ($code === ResponseCode::NOT_REGISTERED) {
+                $token->delete();
             }
+
+            $responses[] = $code;
 
         }
 
-//        var_dump($reponses);
-
-        return true;
+        return $responses;
     }
 
     /**
@@ -138,6 +143,8 @@ class Logic
 
         return true;
     }
+
+
 
 
 }
