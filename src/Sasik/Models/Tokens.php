@@ -57,8 +57,7 @@ class Tokens extends AbstractModel {
 
     public function compare(Tokens $token)
     {
-        if ($this->token === $token->token
-            && $this->type === $token->type )
+        if ($this->token === $token->token)
         {
             return true;
         }

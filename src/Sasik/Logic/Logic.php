@@ -61,8 +61,6 @@ class Logic
         }
         $oldToken = $parent->getToken($token);
 
-//        dump($oldToken);
-
         $newToken = Tokens::createObj([
             'type' => $device,
             'token' => $token,
@@ -163,7 +161,7 @@ class Logic
             return 401;
         }
 
-        $tkn = $parent->getToken($token);
+        $tkn = $parent->getTokens($token);
 
         if ($tkn) {
             $tkn->delete();

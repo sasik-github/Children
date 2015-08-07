@@ -18,10 +18,6 @@ $app->register(new Silex\Provider\DoctrineServiceProvider(), [
     'db.options' => $dbOptions,
 ]);
 
-$app->register(new Silex\Provider\MonologServiceProvider(), array(
-    'monolog.logfile' => APPLICATION_PATH .'/logs/development.log',
-));
-
 \Sasik\Db\DbSingleton::setDb($app['db']);
 
 
