@@ -117,9 +117,11 @@ class Logic
                 if ($code === ResponseCode::NOT_REGISTERED) {
                     $token->delete();
                 }
+
+                $responses[] = $code;
             }
 
-            $responses[] = $code;
+
         }
 
         return $responses;
