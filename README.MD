@@ -14,11 +14,17 @@ PARAMS:
   * device
   * token
 
+## http://host/remove-token
+
+PARAMS:
+  * login
+  * password
+  * token
+
 ## http://host/add-event
 
 PARAMS:
   * child_id
-  * event
   * data
 
 ## http://host/reset-password

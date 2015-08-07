@@ -59,7 +59,7 @@ class Logic
         if (!$parent = Parents::validation($login, $password)) {
             return false;
         }
-        $oldToken = $parent->getToken();
+        $oldToken = $parent->getToken($token);
 
 //        dump($oldToken);
 
@@ -73,7 +73,6 @@ class Logic
             if ($oldToken->compare($newToken)) {
                 return true;
             }
-            $oldToken->delete();
         }
 
         $newToken->save();
@@ -103,22 +102,24 @@ class Logic
              * @var $parent Parents
              */
 
-            $token = $parent->getToken();
+            $tokens = $parent->getTokens();
 
-            if ($token === null) {
+            if ($tokens === null) {
                 $responses[] = ResponseCode::PARENT_NOT_HAVE_TOKEN;
                 continue;
             }
-            $resp = CloudMessaging::send($token->token, json_decode($data, true));
 
-            $code = ResponseCode::fromResponse($resp);
+            foreach($tokens as $token) {
+                $resp = CloudMessaging::send($token->token, json_decode($data, true));
 
-            if ($code === ResponseCode::NOT_REGISTERED) {
-                $token->delete();
+                $code = ResponseCode::fromResponse($resp);
+
+                if ($code === ResponseCode::NOT_REGISTERED) {
+                    $token->delete();
+                }
             }
 
             $responses[] = $code;
-
         }
 
         return $responses;
@@ -143,7 +144,32 @@ class Logic
         return true;
     }
 
+    /**
+     * удаляет токен
+     * возвращает статус код
+     *  200 - успех
+     *  401 - не авторизованный пользователь
+     *  404 - запрашиваемый токен не существует
+     * @param $login
+     * @param $password
+     * @param $token - строковый 256 символьный
+     * @return int
+     */
+    public function removeToken($login, $password, $token)
+    {
+        if (!$parent = Parents::validation($login, $password)) {
+            return 401;
+        }
 
+        $tkn = $parent->getToken($token);
+
+        if ($tkn) {
+            $tkn->delete();
+            return 200;
+        }
+
+        return 404;
+    }
 
 
 }

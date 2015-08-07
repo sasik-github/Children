@@ -42,6 +42,7 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
         $controllers->get('/', $this->getMethod('index'));
         $controllers->post('/auth', $this->getMethod('auth'));
         $controllers->post('/add-token', $this->getMethod('addToken'));
+        $controllers->post('/remove-token', $this->getMethod('removeToken'));
         $controllers->post('/add-event', $this->getMethod('addEvent'));
         $controllers->post('/reset-password', $this->getMethod('resetPassword'));
 
@@ -84,6 +85,18 @@ class IndexControllerProvider extends AbstractProvider implements ControllerProv
         return $app->json([], 401);
 
 
+    }
+
+    private function removeToken(Application $app, Request $request)
+    {
+        $login = $request->get('login');
+        $password = $request->get('password');
+        $token = $request->get('token');
+
+        return $app->json(
+            [],
+            $this->logic->removeToken($login, $password, $token)
+        );
     }
 
     private function addEvent(Application $app, Request $request)

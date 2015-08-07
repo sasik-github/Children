@@ -25,7 +25,7 @@ class Parents extends AbstractModel {
 
     private $childrens = [];
 
-    private $token;
+    private $token = [];
 
     public function getChildrens()
     {
@@ -90,20 +90,44 @@ class Parents extends AbstractModel {
     /**
      * @return Tokens
      */
-    public function getToken()
+    public function getTokens()
     {
-        if (!$this->token) {
+        if (empty($this->token)) {
             $mapper = DbSingleton::getTokensMapper();
-            $tokenRow = $mapper->getToken($this->id);
+            $tokenSet = $mapper->getTokens($this->id);
 
-            if (!$tokenRow) {
-                return null;
+            if ($tokenSet) {
+                return [];
             }
 
-            $this->token = Tokens::createObj($tokenRow);
+            foreach ($tokenSet as $tokenRow) {
+                $this->token[] = Tokens::createObj($tokenRow);
+            }
+
         }
 
         return $this->token;
+    }
+
+    /**
+     * @param $token
+     * @return null|Tokens
+     */
+    public function getToken($token)
+    {
+        $tokens = $this->getTokens();
+
+        foreach ($tokens as $tkn) {
+            /**
+             * @var $tkn Tokens
+             */
+
+            if ($tkn->token === $token) {
+                return $tkn;
+            }
+        }
+
+        return null;
     }
 
     public function addChildren(Children $children)

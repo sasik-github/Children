@@ -50,6 +50,25 @@
             </div>
         </div>
         <div class="col-xs-12">
+            <h2><a href="#">http://{host}/remove-token</a></h2>
+            <p>
+                удаляет токен, возвращает статус код
+            </p>
+            <ul>
+                <li>200 - успех</li>
+                <li>401 - не авторизованный пользователь</li>
+                <li>404 - токен не существует</li>
+            </ul>
+            <div>
+                params:
+                <ul>
+                    <li>login</li>
+                    <li>password</li>
+                    <li>token</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-xs-12">
             <h2><a href="#">http://{host}/add-event</a></h2>
 
             <div>
