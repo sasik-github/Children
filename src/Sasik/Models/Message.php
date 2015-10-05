@@ -8,6 +8,8 @@
 namespace Sasik\Models;
 
 
+use Sasik\Db\DbSingleton;
+
 class Message extends AbstractModel
 {
     public $id;
@@ -34,5 +36,19 @@ class Message extends AbstractModel
         $message->date = $params['date'];
 
         return $message;
+    }
+
+    public function save()
+    {
+        $mapper = DbSingleton::getChildrenMapper();
+
+        $params = [
+            'parent_id' => $this->parent_id,
+            'child_id'  => $this->child_id,
+            'message'   => $this->message,
+            'date'      => $this->date,
+        ];
+
+        $this->doSave($mapper, $params);
     }
 }

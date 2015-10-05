@@ -10,6 +10,7 @@ namespace Sasik\Db;
 
 use Doctrine\DBAL\Connection;
 use Sasik\Models\Mapper\ChildrenMapper;
+use Sasik\Models\Mapper\MessagesMapper;
 use Sasik\Models\Mapper\ParentChildrenRelation;
 use Sasik\Models\Mapper\ParentsMapper;
 use Sasik\Models\Mapper\TokensMapper;
@@ -29,6 +30,7 @@ class DbSingleton
     private static $parentsMapper;
     private static $tokensMapper;
     private static $parentChildrenMapper;
+    private static $messagesMapper;
 
     public static function setDb(Connection $db)
     {
@@ -126,8 +128,13 @@ class DbSingleton
     }
 
 
-
-
+    public static function getMessageMapper()
+    {
+        if (!self::$messagesMapper) {
+            self::$messagesMapper = new MessagesMapper(self::getDb());
+        }
+    }
+    
 
 
 

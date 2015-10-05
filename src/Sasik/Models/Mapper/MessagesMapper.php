@@ -8,7 +8,8 @@
 namespace Sasik\Models\Mapper;
 
 
-class MessagesMapper
+class MessagesMapper extends Mapper
 {
-
+    protected $select = 'SELECT * FROM message';
+    protected $table = 'message';
 }
