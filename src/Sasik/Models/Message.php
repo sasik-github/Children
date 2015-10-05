@@ -40,7 +40,7 @@ class Message extends AbstractModel
 
     public function save()
     {
-        $mapper = DbSingleton::getChildrenMapper();
+        $mapper = DbSingleton::getMessageMapper();
 
         $params = [
             'parent_id' => $this->parent_id,
