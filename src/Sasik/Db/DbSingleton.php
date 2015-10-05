@@ -139,8 +139,5 @@ class DbSingleton
 
         return self::$messagesMapper;
     }
-    
-
-
 
 }

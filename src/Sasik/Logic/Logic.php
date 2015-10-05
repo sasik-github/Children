@@ -114,7 +114,9 @@ class Logic
 
                 $code = ResponseCode::fromResponse($resp);
 
-                if ($code === ResponseCode::NOT_REGISTERED) {
+                if ($code === ResponseCode::NOT_REGISTERED
+                    || $code === ResponseCode::UNKNOWN_ERROR
+                ) {
                     $token->delete();
                 }
                 if ($code === ResponseCode::OK) {
