@@ -105,17 +105,15 @@ DROP TABLE IF EXISTS `messages` CASCADE;
 CREATE TABLE `messages` ( 
 	`id` Int( 11 ) AUTO_INCREMENT NOT NULL, 
 	`parent_id` Int( 11 ) NOT NULL, 
-	`children_id` Int( 11 ) NOT NULL, 
 	`date` DateTime NOT NULL DEFAULT CURRENT_TIMESTAMP, 
-	`message` Text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+	`message` Text CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL, 
+	`child_id` Int( 11 ) NOT NULL,
 	 PRIMARY KEY ( `id` )
-, 
-	CONSTRAINT `unique_children_id` UNIQUE( `children_id` ), 
-	CONSTRAINT `unique_parent_id` UNIQUE( `parent_id` ) )
+ )
 CHARACTER SET = utf8
 COLLATE = utf8_general_ci
 ENGINE = InnoDB
-AUTO_INCREMENT = 1;
+AUTO_INCREMENT = 3;
 -- ---------------------------------------------------------
 
 
@@ -162,6 +160,8 @@ INSERT INTO `tokens`(`id`,`parent_id`,`token`,`type`) VALUES ( '156', '6', 'dki4
 
 
 -- Dump data of "messages" ---------------------------------
+INSERT INTO `messages`(`id`,`parent_id`,`child_id`,`date`,`message`) VALUES ( '1', '6', '5', '2015-10-05 12:38:21', 'hello world' );
+INSERT INTO `messages`(`id`,`parent_id`,`child_id`,`date`,`message`) VALUES ( '3', '6', '5', '2015-10-05 12:49:16', 'hello world' );
 -- ---------------------------------------------------------
 
 
@@ -191,7 +191,12 @@ CREATE INDEX `phone` USING BTREE ON `users`( `phone`, `email`, `active` );
 
 
 -- CREATE INDEX "parent_id" --------------------------------
-CREATE INDEX `parent_id` USING BTREE ON `messages`( `parent_id`, `children_id`, `date` );
+CREATE INDEX `parent_id` USING BTREE ON `messages`( `parent_id`, `child_id`, `date` );
+-- ---------------------------------------------------------
+
+
+-- CREATE INDEX "fk_messages_to_children" ------------------
+CREATE INDEX `fk_messages_to_children` USING BTREE ON `messages`( `child_id` );
 -- ---------------------------------------------------------
 
 
@@ -223,7 +228,7 @@ ALTER TABLE `tokens` ADD CONSTRAINT `fk_tokens_to_parent` FOREIGN KEY ( `parent_
 ALTER TABLE `messages` DROP FOREIGN KEY `fk_messages_to_children`;
 
 
-ALTER TABLE `messages` ADD CONSTRAINT `fk_messages_to_children` FOREIGN KEY ( `children_id` ) REFERENCES `children`( `id` ) ON DELETE Cascade ON UPDATE Cascade;
+ALTER TABLE `messages` ADD CONSTRAINT `fk_messages_to_children` FOREIGN KEY ( `child_id` ) REFERENCES `children`( `id` ) ON DELETE Cascade ON UPDATE Cascade;
 -- ---------------------------------------------------------
 
 
