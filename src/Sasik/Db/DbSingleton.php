@@ -128,11 +128,16 @@ class DbSingleton
     }
 
 
+    /**
+     * @return MessagesMapper
+     */
     public static function getMessageMapper()
     {
         if (!self::$messagesMapper) {
             self::$messagesMapper = new MessagesMapper(self::getDb());
         }
+
+        return self::$messagesMapper;
     }
     
 
