@@ -10,6 +10,6 @@ namespace Sasik\Models\Mapper;
 
 class MessagesMapper extends Mapper
 {
-    protected $select = 'SELECT * FROM message';
-    protected $table = 'message';
+    protected $select = 'SELECT * FROM messages';
+    protected $table  = 'messages';
 }
